@@ -1,0 +1,79 @@
+<html ng-app="meuApp">
+<head>
+    <meta charset="UTF-8">
+    <script src="Lib/Angular/angular.js"></script>
+    <link rel="stylesheet" type="text/css" href="Lib/Boostrap/bootstrap.css">
+    <title>Meu App</title>
+    <style>
+    .jumbotron {
+        width: 400px;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 20px;
+    }
+    .table{
+        margin-top: 20px;
+    }
+    .form-control {
+        margin-bottom: 5px;
+    }
+    .espacamento {
+        padding-left: 10px; 
+        padding-right: 10px;
+    }
+    </style>
+    <script>
+        angular.module("meuApp", []);//colchetes é o conjunto de módulos a serem importados
+        angular.module("meuApp").controller("meuAppController", function ($scope)
+        { 
+            $scope.message = "Meu Aplicativo";
+            $scope.contatos = [
+                {nome: "Dione Maciel", idade: "33"},
+                {nome: "Otávio Maciel", idade: "2"},
+                {nome: "Keziah Maciel", idade: "38"}
+            ];
+
+            $scope.Add = function (c) 
+            {
+                $scope.contatos.push(c);
+                delete $scope.c;
+            }
+
+            $scope.sexo = [
+                {descricao: "Feminino"},
+                {descricao: "Masculino"}
+            ];
+        })
+    </script>
+</head>
+<body ng-controller="meuAppController">
+        <div class="jumbotron">
+            <div class="espacamento">
+            <h4>{{message}}</h4>
+            <table class="table table-striped">
+                <tr>
+                    <th>Nome</th>
+                    <th>Idade</th>
+                    <th>Sexo</th>
+                </tr>
+                <tr ng-repeat="c in contatos">
+                    <td>{{c.nome}}</td>
+                    <td>{{c.idade}}</td>
+                    <td>{{c.sexo.descricao}}</td>
+                </tr>
+                </div>
+            </div>
+        </table>
+        <hr/>
+        <input type="text" class="form-control" ng-model="c.nome" placeholder="Nome"/>
+        <input type="text" class="form-control" ng-model="c.idade" placeholder="Idade"/>
+        <select class="form-control" ng-model="c.sexo" ng-options="s.descricao for s in sexo">
+            <option value="">Sexo</option>
+        </select>
+    
+        <button class="btn btn-primary btn-block" ng-click="Add(c)" 
+            ng-disabled="!c.nome || !c.idade>Adicionar">Adicionar</button>
+
+</body>
+</html 
