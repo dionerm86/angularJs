@@ -22,6 +22,12 @@
         padding-left: 10px; 
         padding-right: 10px;
     }
+    .yellow {
+        background-color: yellow;
+    }
+    .negrito {
+        font-weight: bold;
+    }
     </style>
     <script>
         angular.module("meuApp", []);//colchetes é o conjunto de módulos a serem importados
@@ -29,10 +35,26 @@
         { 
             $scope.message = "Meu Aplicativo";
             $scope.contatos = [
-                {nome: "Dione Maciel", idade: "33"},
-                {nome: "Otávio Maciel", idade: "2"},
-                {nome: "Keziah Maciel", idade: "38"}
+                {nome: "Dione Maciel", telefone: "99640-0321"},
+                {nome: "Otávio Maciel", telefone: "99999-9999"},
+                {nome: "Keziah Maciel", telefone: "99950-8798"}
             ];
+
+            $scope.isContatoSelecionado = function (contatos) {
+                
+                return contatos.some(
+                    
+                    function (contato) 
+                    {
+					    return contato.selecionado;
+				    });
+			};
+
+            // $scope.isContatoSelecionado = function (contatos) {
+			// 	return contatos.some(function (contato) {
+			// 		return contato.selecionado;
+			// 	});
+			// };
 
             $scope.Add = function (c) 
             {
@@ -40,10 +62,24 @@
                 delete $scope.c;
             }
 
-            $scope.sexo = [
-                {descricao: "Feminino"},
-                {descricao: "Masculino"}
+            $scope.Deletar = function(contatos) 
+            {
+                $scope.contatos = contatos.filter(
+                    function (c)
+                    {
+                        if (!c.selecionado) return contatos;
+                    }
+                );
+            };
+
+            $scope.operadora = [
+                {descricao: "Vivo", categoria: "Celular"},
+                {descricao: "Tim", categoria: "Fixo"},
+                {descricao: "Oi", categoria: "Celular"}
             ];
+
+            $scope.backgroud = "yellow";
+            $scope.negrito = "negrito";
         })
     </script>
 </head>
@@ -51,16 +87,18 @@
         <div class="jumbotron">
             <div class="espacamento">
             <h4>{{message}}</h4>
-            <table class="table table-striped">
+            <table ng-show="contatos.length > 0" class="table table-striped" >
                 <tr>
+                    <th></th>
                     <th>Nome</th>
-                    <th>Idade</th>
-                    <th>Sexo</th>
+                    <th>Telefone</th>
+                    <th>Operadora</th>
                 </tr>
-                <tr ng-repeat="c in contatos">
+                <tr ng-class="{'yellow negrito': c.selecionado}" ng-repeat="c in contatos">
+                    <th><input type="checkbox" ng-model="c.selecionado" id=""></th>
                     <td>{{c.nome}}</td>
-                    <td>{{c.idade}}</td>
-                    <td>{{c.sexo.descricao}}</td>
+                    <td>{{c.telefone}}</td>
+                    <td>{{c.operadora.descricao}}</td>
                 </tr>
                 </div>
             </div>
@@ -68,12 +106,11 @@
         <hr/>
         <input type="text" class="form-control" ng-model="c.nome" placeholder="Nome"/>
         <input type="text" class="form-control" ng-model="c.idade" placeholder="Idade"/>
-        <select class="form-control" ng-model="c.sexo" ng-options="s.descricao for s in sexo">
-            <option value="">Sexo</option>
+        <select class="form-control" ng-model="c.operadora" ng-options="o.descricao group by o.categoria for o in operadora">
+            <option value="">Operadora</option>
         </select>
-    
-        <button class="btn btn-primary btn-block" ng-click="Add(c)" 
-            ng-disabled="!c.nome || !c.idade>Adicionar">Adicionar</button>
-
+        <button class="btn btn-primary btn-block" ng-click="Add(c)" ng-disabled="!c.nome || !c.idade>Adicionar">Adicionar</button>
+        <button class="btn btn-danger btn-block" ng-click="Deletar(contatos)" ng-if="isContatoSelecionado(contatos)">Apagar</button>
+        <div ng-include="'footer.html'"></div>
 </body>
 </html 
