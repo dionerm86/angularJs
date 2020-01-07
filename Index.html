@@ -5,29 +5,29 @@
     <link rel="stylesheet" type="text/css" href="Lib/Boostrap/bootstrap.css">
     <title>Meu App</title>
     <style>
-    .jumbotron {
-        width: 400px;
-        text-align: center;
-        margin-left: auto;
-        margin-right: auto;
-        margin-top: 20px;
-    }
-    .table{
-        margin-top: 20px;
-    }
-    .form-control {
-        margin-bottom: 5px;
-    }
-    .espacamento {
-        padding-left: 10px; 
-        padding-right: 10px;
-    }
-    .yellow {
-        background-color: yellow;
-    }
-    .negrito {
-        font-weight: bold;
-    }
+        .jumbotron {
+            width: 400px;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 20px;
+        }
+        .table{
+            margin-top: 20px;
+        }
+        .form-control {
+            margin-bottom: 5px;
+        }
+        .espacamento {
+            padding-left: 10px; 
+            padding-right: 10px;
+        }
+        .yellow {
+            background-color: yellow;
+        }
+        .negrito {
+            font-weight: bold;
+        }
     </style>
     <script>
         angular.module("meuApp", []);//colchetes é o conjunto de módulos a serem importados
@@ -35,82 +35,83 @@
         { 
             $scope.message = "Meu Aplicativo";
             $scope.contatos = [
-                {nome: "Dione Maciel", telefone: "99640-0321"},
-                {nome: "Otávio Maciel", telefone: "99999-9999"},
-                {nome: "Keziah Maciel", telefone: "99950-8798"}
+            {nome: "Dione Maciel", telefone: "99640-0321"},
+            {nome: "Otávio Maciel", telefone: "99999-9999"},
+            {nome: "Keziah Maciel", telefone: "99950-8798"}
             ];
-
+            
             $scope.isContatoSelecionado = function (contatos) {
                 
                 return contatos.some(
-                    
-                    function (contato) 
-                    {
-					    return contato.selecionado;
-				    });
-			};
-
-            // $scope.isContatoSelecionado = function (contatos) {
-			// 	return contatos.some(function (contato) {
-			// 		return contato.selecionado;
-			// 	});
-			// };
-
-            $scope.Add = function (c) 
-            {
-                $scope.contatos.push(c);
-                delete $scope.c;
-            }
-
-            $scope.Deletar = function(contatos) 
-            {
-                $scope.contatos = contatos.filter(
-                    function (c)
-                    {
-                        if (!c.selecionado) return contatos;
-                    }
-                );
+                
+                function (contato) 
+                {
+                    return contato.selecionado;
+                });
             };
-
-            $scope.operadora = [
-                {descricao: "Vivo", categoria: "Celular"},
-                {descricao: "Tim", categoria: "Fixo"},
-                {descricao: "Oi", categoria: "Celular"}
-            ];
-
-            $scope.backgroud = "yellow";
-            $scope.negrito = "negrito";
-        })
-    </script>
-</head>
-<body ng-controller="meuAppController">
-        <div class="jumbotron">
-            <div class="espacamento">
-            <h4>{{message}}</h4>
-            <table ng-show="contatos.length > 0" class="table table-striped" >
-                <tr>
-                    <th></th>
-                    <th>Nome</th>
-                    <th>Telefone</th>
-                    <th>Operadora</th>
-                </tr>
-                <tr ng-class="{'yellow negrito': c.selecionado}" ng-repeat="c in contatos">
-                    <th><input type="checkbox" ng-model="c.selecionado" id=""></th>
-                    <td>{{c.nome}}</td>
-                    <td>{{c.telefone}}</td>
-                    <td>{{c.operadora.descricao}}</td>
-                </tr>
-                </div>
+            
+            // $scope.isContatoSelecionado = function (contatos) {
+                // 	return contatos.some(function (contato) {
+                    // 		return contato.selecionado;
+                    // 	});
+                    // };
+                    
+                    $scope.Add = function (c) 
+                    {
+                        $scope.contatos.push(c);
+                        delete $scope.c;
+                    }
+                    
+                    $scope.Deletar = function(contatos) 
+                    {
+                        $scope.contatos = contatos.filter(
+                        function (c)
+                        {
+                            if (!c.selecionado) return contatos;
+                        }
+                        );
+                    };
+                    
+                    $scope.operadora = [
+                    {descricao: "Vivo", categoria: "Celular"},
+                    {descricao: "Tim", categoria: "Fixo"},
+                    {descricao: "Oi", categoria: "Celular"}
+                    ];
+                    
+                    $scope.backgroud = "yellow";
+                    $scope.negrito = "negrito";
+                })
+            </script>
+        </head>
+        <body ng-controller="meuAppController">
+            <div class="jumbotron">
+                <div class="espacamento">
+                    <h4>{{message}}</h4>
+                    <table ng-show="contatos.length > 0" class="table" >
+                        <tr>
+                            <th></th>
+                            <th>Nome</th>
+                            <th>Telefone</th>
+                            <th>Operadora</th>
+                        </tr>
+                        <tr ng-class="{'yellow negrito': c.selecionado}" ng-repeat="c in contatos">
+                            <th><input type="checkbox" ng-model="c.selecionado" id=""></th>
+                            <td>{{c.nome}}</td>
+                            <td>{{c.telefone}}</td>
+                            <td>{{c.operadora.descricao}}</td>
+                        </tr>
+                    </table>
+                        <hr/>
+                        <input type="text" class="form-control" ng-model="c.nome" placeholder="Nome"/>
+                        <input type="text" class="form-control" ng-model="c.idade" placeholder="Idade"/>
+                        <select class="form-control" ng-model="c.operadora" ng-options="o.descricao group by o.categoria for o in operadora">
+                            <option value="">Operadora</option>
+                        </select>
+                        <button class="btn btn-primary btn-block" ng-click="Add(c)" ng-disabled="!c.nome || !c.idade>Adicionar">Adicionar</button>
+                        <button class="btn btn-danger btn-block" ng-click="Deletar(contatos)" ng-if="isContatoSelecionado(contatos)">Apagar</button>
+                    
+                    </div>
             </div>
-        </table>
-        <hr/>
-        <input type="text" class="form-control" ng-model="c.nome" placeholder="Nome"/>
-        <input type="text" class="form-control" ng-model="c.idade" placeholder="Idade"/>
-        <select class="form-control" ng-model="c.operadora" ng-options="o.descricao group by o.categoria for o in operadora">
-            <option value="">Operadora</option>
-        </select>
-        <button class="btn btn-primary btn-block" ng-click="Add(c)" ng-disabled="!c.nome || !c.idade>Adicionar">Adicionar</button>
-        <button class="btn btn-danger btn-block" ng-click="Deletar(contatos)" ng-if="isContatoSelecionado(contatos)">Apagar</button>
-        <div ng-include="'footer.html'"></div>
-</body>
-</html 
+            <div ng-include="'footer.html'"></div>
+        </body>
+        </html 
